@@ -8,8 +8,10 @@ import com.lan.googleplay.ui.view.LoadingPager;
  * Created by lan on 2016/7/25.
  */
 public class GameFragment extends BaseFragment {
+
     @Override
     protected View onCreateSuccessView() {
+
         return null;
     }
 

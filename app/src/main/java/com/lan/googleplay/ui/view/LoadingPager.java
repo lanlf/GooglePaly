@@ -3,9 +3,11 @@ package com.lan.googleplay.ui.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.lan.googleplay.R;
+import com.lan.googleplay.manager.ThreadManager;
 import com.lan.googleplay.utils.UIUtils;
 
 /**
@@ -55,6 +57,13 @@ public abstract class LoadingPager extends FrameLayout {
         if (mErrorPage == null) {
             mErrorPage = UIUtils.inflate(R.layout.page_error);
             addView(mErrorPage);
+            Button bt_error = (Button) findViewById(R.id.bt_error);
+            bt_error.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadData();
+                }
+            });
         }
 
         // 初始化数据为空布局
@@ -100,7 +109,7 @@ public abstract class LoadingPager extends FrameLayout {
         if (mCurrentState != STATE_LOAD_LOADING)
             mCurrentState = STATE_LOAD_LOADING;
         showRightPage();
-        new Thread(new Runnable() {
+       /* new Thread(new Runnable() {
             @Override
             public void run() {
                 if (onLoad() != null)
@@ -112,12 +121,26 @@ public abstract class LoadingPager extends FrameLayout {
                     }
                 });
             }
-        }).start();
+        }).start();*/
+        ThreadManager.ThreadPool threadPool = ThreadManager.getThreadPool();
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (onLoad() != null)
+                    mCurrentState = onLoad().state;
+                UIUtils.runOnUIThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showRightPage();
+                    }
+                });
+            }
+        });
     }
 
 
     public enum ResultState {
-        EMPTY(STATE_LOAD_EMPTY), SUCESS(STATE_LOAD_SUCCESS), ERROR(STATE_LOAD_ERROR);
+        EMPTY(STATE_LOAD_EMPTY), SUCCESS(STATE_LOAD_SUCCESS), ERROR(STATE_LOAD_ERROR);
         private int state;
 
         ResultState(int state) {
