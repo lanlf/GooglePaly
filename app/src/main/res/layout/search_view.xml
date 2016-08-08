@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#eee"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_search"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@android:color/holo_blue_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <FrameLayout
+
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/search_et_input"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_search"
+                android:textSize="21sp"
+                android:textColor="@android:color/black"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:hint="请输入关键字"/>
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/iv_delete"
+                android:id="@+id/search_iv_delete"
+                android:layout_gravity="end|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:visibility="gone"
+        android:id="@+id/search_lv_tips"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    </ListView>
+</LinearLayout>

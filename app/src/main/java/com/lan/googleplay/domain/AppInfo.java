@@ -1,5 +1,6 @@
 package com.lan.googleplay.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * @author Kevin
  * @date 2015-10-28
  */
-public class AppInfo {
+public class AppInfo implements Serializable{
 
 	public String des;
 	public String downloadUrl;

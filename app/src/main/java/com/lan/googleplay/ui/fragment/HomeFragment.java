@@ -3,10 +3,14 @@ package com.lan.googleplay.ui.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
+import com.lan.googleplay.R;
 import com.lan.googleplay.domain.AppInfo;
 import com.lan.googleplay.http.protocol.HomeProtocol;
 import com.lan.googleplay.ui.activity.HomeDetailActivity;
+import com.lan.googleplay.ui.activity.SearchActivity;
 import com.lan.googleplay.ui.adapter.MyBaseAdapter;
 import com.lan.googleplay.ui.holder.BaseHolder;
 import com.lan.googleplay.ui.holder.HomeHeaderHolder;
@@ -26,6 +30,7 @@ public class HomeFragment extends BaseFragment {
     private ArrayList<String> mPictureList;
 
     private ArrayList<AppInfo> data;
+    private LinearLayout ll_search;
 
     @Override
     protected View onCreateSuccessView() {
@@ -34,6 +39,19 @@ public class HomeFragment extends BaseFragment {
         // 给listview增加头布局展示轮播条
         HomeHeaderHolder header = new HomeHeaderHolder();
         lv.addHeaderView(header.getRootView());// 先添加头布局,再setAdapter
+        View searchView = UIUtils.inflate(R.layout.search_view);
+        ll_search = (LinearLayout) searchView.findViewById(R.id.ll_search);
+        EditText et_searcht = (EditText) ll_search.findViewById(R.id.search_et_input);
+        et_searcht.setClickable(true);
+        et_searcht.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UIUtils.getContext(),SearchActivity.class);
+                intent.putExtra("apps",data);
+                startActivity(intent);
+            }
+        });
+        lv.addHeaderView(searchView);
         if (mPictureList != null) {
             // 设置轮播条数据
             header.setData(mPictureList);
@@ -44,7 +62,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                AppInfo appInfo = data.get(position - 1);// 去掉头布局
+                AppInfo appInfo = data.get(position - 2);// 去掉头布局
 
                 if (appInfo != null) {
                     Intent intent = new Intent(UIUtils.getContext(),
